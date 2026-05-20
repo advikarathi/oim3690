@@ -1,8 +1,20 @@
-# Oim3690
-Course Work for OIM3690 in Summer 2026
+# OIM3690 — AI-Powered Web Development
 
-My name is Advika Rathi. I am excited to build my website.
+- **Name**: Advika Rathi
+- **Semester**: Summer 2026
 
+This is my course repo for OIM3690. It holds class exercises, weekly logs, and links to all my projects.
 
-## My Projects
-- [My Personal Website] (https://github.com/advikarathi)
+## Projects
+
+| Project | Repo | Live URL |
+|---------|------|----------|
+| Personal Website | [repo](https://github.com/advikarathi/username.github.io) | [live](https://advikarathi.github.io) |
+| MP1 — Website for Someone Else | | |
+| MP2 — Interactive Web Tool | | |
+| MP3 — API-Powered App | | |
+| Final Project | | |
+
+## Weekly Logs
+
+See the [logs/](logs/) folder.
