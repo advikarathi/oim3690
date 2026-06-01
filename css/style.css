@@ -1,0 +1,40 @@
+/* 1. Body rule with font-family and color */
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333333;
+}
+
+
+/* 2. Element selector styling h1 */
+
+h1 {
+    font-size: 2rem;
+    color: #1a1a2e;
+    font-weight: bold;
+}
+
+
+/* 3. Class selector .highlight */
+
+.highlight {
+    background-color: #fff176;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+
+/* 4. Hover rule on a link */
+
+a:hover {
+    color: #e63946;
+    text-decoration: underline;
+}
+
+
+/* Conflicting rule to observe cascade in DevTools */
+
+h1 {
+    color: hotpink;
+    /* This conflicts with the h1 rule above — the second one wins */
+}
