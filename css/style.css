@@ -1,192 +1,123 @@
-/* Color Scheme */
+/* Base */
 
-:root {
-    --primary-color: #2c3e50;
-    --accent-color: #3498db;
-    --accent-light: #e8f4f8;
-    --text-color: #2c3e50;
-    --light-text: #7f8c8d;
-    --border-color: #ecf0f1;
-    --hover-color: #e74c3c;
-}
-
-
-/* Body and Global Styles */
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-color);
-    line-height: 1.6;
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
 }
 
 
-/* Header and Navigation */
+/* 1. Body rule - font-family and color */
 
-header {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 2rem 1rem;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+body {
+    font-family: 'Georgia', serif;
+    color: #2d2d2d;
+    background-color: #fafaf8;
+    line-height: 1.7;
+    padding: 40px 20px;
 }
+
+
+/* 2. h1 element selector */
 
 h1 {
-    font-size: 2.5rem;
-    margin: 0 0 1rem 0;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
-
-nav {
-    margin-top: 1rem;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 1rem;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-nav a:hover {
-    color: var(--accent-color);
-}
-
-nav a::before {
-    content: '';
-    position: relative;
-}
-
-
-/* Main Content */
-
-main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-}
-
-section {
-    margin-bottom: 3rem;
-    padding: 2rem;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    font-size: 2.4rem;
+    color: #1b1b2f;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
 }
 
 h2 {
-    font-size: 1.8rem;
-    color: var(--primary-color);
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    border-bottom: 3px solid var(--accent-color);
-    padding-bottom: 0.5rem;
-    display: inline-block;
+    font-size: 1.4rem;
+    color: #3a3a5c;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #e0d9f7;
+    padding-bottom: 4px;
 }
 
-p {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: var(--text-color);
-    margin-bottom: 1rem;
+
+/* Layout */
+
+header {
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+
+/* Nav */
+
+nav {
+    margin-top: 10px;
+    font-size: 0.95rem;
+}
+
+
+/* 3. Class selector */
+
+.highlight {
+    background-color: #e0d9f7;
+    padding: 2px 6px;
+    border-radius: 4px;
 }
 
 
 /* Images */
 
 img {
-    max-width: 100%;
-    height: auto;
+    display: block;
+    margin: 16px 0;
     border-radius: 8px;
-    margin: 1rem 0.5rem 1rem 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-
-/* Highlight Class */
-
-.highlight {
-    background-color: var(--accent-light);
-    color: var(--accent-color);
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-weight: 600;
 }
 
 
 /* Lists */
 
 ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    padding: 0.75rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    font-size: 1rem;
-}
-
-li::before {
-    content: '▸';
-    color: var(--accent-color);
-    font-weight: bold;
-    position: absolute;
-    left: 0;
+    padding-left: 20px;
+    line-height: 2;
 }
 
 
-/* Links */
+/* 4. Hover rule on links */
 
 a {
-    color: var(--accent-color);
+    color: #5c4dab;
     text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    position: relative;
-    padding-bottom: 2px;
-}
-
-a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--hover-color);
-    transition: width 0.3s ease;
 }
 
 a:hover {
-    color: var(--hover-color);
-}
-
-a:hover::after {
-    width: 100%;
+    color: #e63946;
+    text-decoration: underline;
 }
 
 
 /* Footer */
 
 footer {
-    background-color: #f1f1f1;
-    text-align: center;
-    padding: 2rem 1rem;
-    margin-top: 3rem;
-    border-top: 1px solid var(--border-color);
-    color: var(--light-text);
-    font-size: 0.9rem;
+    max-width: 800px;
+    margin: 40px auto 0 auto;
+    font-size: 0.85rem;
+    color: #888;
 }
 
-footer hr {
+hr {
     border: none;
-    height: 1px;
-    background-color: var(--border-color);
-    margin-bottom: 1rem;
+    border-top: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+
+/* Conflicting rule - observe cascade in DevTools */
+
+h1 {
+    color: hotpink;
 }
