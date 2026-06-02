@@ -109,6 +109,14 @@ footer {
     color: #888;
 }
 
+#intro {
+    padding: 18px 20px;
+    background-color: #f4f1ff;
+    border: 1px solid #d8c7ff;
+    border-radius: 10px;
+    margin-bottom: 24px;
+}
+
 hr {
     border: none;
     border-top: 1px solid #ddd;
