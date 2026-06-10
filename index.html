@@ -94,21 +94,78 @@
             text-transform: uppercase;
             margin-top: 1.2rem;
         }
+        /* ── FLUID IMAGES ── */
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
         /* ── NAV ── */
-        
+
         nav {
-            padding: 1.4rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 1rem 0;
             border-bottom: 1px solid var(--line);
             opacity: 0;
             animation: fadeUp 0.9s 0.15s ease forwards;
         }
-        
+
+        /* hamburger button — visible on mobile, hidden on desktop */
+        .nav-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem;
+            z-index: 10;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--ink);
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        /* animate to X when open */
+        nav.nav-open .nav-toggle span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        nav.nav-open .nav-toggle span:nth-child(2) {
+            opacity: 0;
+        }
+
+        nav.nav-open .nav-toggle span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* nav links — hidden by default on mobile, shown when open */
         nav ul {
             list-style: none;
-            display: flex;
-            gap: 2.5rem;
+            display: none;
+            flex-direction: column;
+            gap: 1.2rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--cream);
+            padding: 4.5rem 2rem 1.5rem;
+            border-bottom: 1px solid var(--line);
+            z-index: 5;
         }
-        
+
+        nav.nav-open ul {
+            display: flex;
+        }
+
         nav a {
             font-family: "DM Mono", monospace;
             font-size: 0.7rem;
@@ -118,9 +175,53 @@
             text-decoration: none;
             transition: color 0.2s;
         }
-        
+
         nav a:hover {
             color: var(--rust);
+        }
+        /* ── RESPONSIVE: desktop (640px+) ── */
+
+        @media (min-width: 640px) {
+            .nav-toggle {
+                display: none;
+            }
+
+            nav {
+                justify-content: flex-start;
+                padding: 1.4rem 0;
+                position: static;
+            }
+
+            nav ul {
+                display: flex;
+                flex-direction: row;
+                gap: 2.5rem;
+                position: static;
+                background: none;
+                padding: 0;
+                border: none;
+            }
+        }
+        /* ── RESPONSIVE: mobile adjustments ── */
+
+        @media (max-width: 639px) {
+            header {
+                padding: 2.5rem 0 1.8rem;
+            }
+
+            section {
+                padding: 2.5rem 0;
+            }
+
+            .wrapper {
+                padding: 0 1.2rem;
+            }
+
+            .project-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
         }
         /* ── SECTIONS ── */
         
@@ -310,7 +411,12 @@
             <p class="tagline">Marketing · Babson College · AI Enthusiast</p>
         </header>
 
-        <nav>
+        <nav id="main-nav">
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul>
                 <li><a href="about.html">About</a></li>
                 <li><a href="#interests">Interests</a></li>
@@ -406,6 +512,23 @@
             </div>
         </footer>
     </div>
+    <script>
+        const nav = document.getElementById('main-nav');
+        const toggle = nav.querySelector('.nav-toggle');
+
+        toggle.addEventListener('click', function () {
+            const isOpen = nav.classList.toggle('nav-open');
+            toggle.setAttribute('aria-expanded', isOpen);
+        });
+
+        // close menu when a link is clicked
+        nav.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                nav.classList.remove('nav-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    </script>
 </body>
 
 </html>
