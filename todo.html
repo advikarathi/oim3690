@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(180deg, #f7f8fc 0%, #dde4f2 100%);
+            padding: 2rem;
+        }
+        
+        .app {
+            width: min(100%, 520px);
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        header {
+            padding: 2rem;
+            background: #4f74ff;
+            color: white;
+            text-align: center;
+        }
+        
+        header h1 {
+            margin: 0 0 0.5rem;
+            font-size: clamp(1.7rem, 2vw, 2.4rem);
+        }
+        
+        .subtitle {
+            margin: 0;
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+        
+        .panel {
+            padding: 1.75rem 1.5rem 2rem;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .controls input,
+        .controls button,
+        .controls select {
+            font: inherit;
+            border: 1px solid #d1d8e6;
+            border-radius: 12px;
+            padding: 0.95rem 1rem;
+        }
+        
+        .controls input {
+            width: 100%;
+            min-width: 0;
+        }
+        
+        .controls button {
+            background: #4f74ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        
+        .controls button:hover {
+            transform: translateY(-1px);
+            background: #3c59d1;
+        }
+        
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+        
+        .todo-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0.75rem;
+        }
+        
+        .todo-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.95rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            background: #fbfcff;
+        }
+        
+        .todo-item.completed {
+            opacity: 0.68;
+            text-decoration: line-through;
+        }
+        
+        .todo-item-info {
+            display: grid;
+            gap: 0.25rem;
+            min-width: 0;
+        }
+        
+        .todo-item span {
+            overflow-wrap: anywhere;
+        }
+        
+        .todo-meta {
+            font-size: 0.86rem;
+            color: #64748b;
+        }
+        
+        .todo-item button {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+            transition: background 0.2s ease;
+        }
+        
+        .todo-item button:hover {
+            background: rgba(239, 68, 68, 0.08);
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #64748b;
+            padding: 2rem 1rem;
+            border: 1px dashed #cbd5e1;
+            border-radius: 16px;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="app" aria-labelledby="app-title">
+        <header>
+            <h1 id="app-title">Todo App</h1>
+            <p class="subtitle">Add tasks, set due dates, mark done, and clear everything.</p>
+        </header>
+
+        <section class="panel">
+            <form class="controls" id="todo-form">
+                <label class="visually-hidden" for="task-input">New task</label>
+                <input id="task-input" type="text" placeholder="Add a new task" autocomplete="off" required />
+
+                <button type="submit">Add task</button>
+            </form>
+
+            <div class="summary" id="task-summary">
+                <span id="total-count">Total: 0</span>
+                <span id="active-count">Active: 0</span>
+                <button id="clear-all" type="button">Clear all</button>
+            </div>
+
+            <ul class="todo-list" id="todo-list"></ul>
+            <div class="empty-state" id="empty-state">No tasks yet. Add one to get started.</div>
+        </section>
+    </main>
+
+    <script>
+        const form = document.getElementById('todo-form');
+        const input = document.getElementById('task-input');
+        const list = document.getElementById('todo-list');
+        const emptyState = document.getElementById('empty-state');
+        const totalCount = document.getElementById('total-count');
+        const activeCount = document.getElementById('active-count');
+        const clearAllButton = document.getElementById('clear-all');
+
+        const tasks = [];
+
+        function updateSummary() {
+            totalCount.textContent = `Total: ${tasks.length}`;
+            const activeTasks = tasks.filter(t => !t.done).length;
+            activeCount.textContent = `Active: ${activeTasks}`;
+            emptyState.style.display = tasks.length ? 'none' : 'block';
+        }
+
+        function createTodoItem(task) {
+            const item = document.createElement('li');
+            item.className = 'todo-item';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = task.done;
+            checkbox.id = task.id;
+
+            const label = document.createElement('label');
+            label.htmlFor = task.id;
+            label.className = 'todo-item-info';
+
+            const title = document.createElement('span');
+            title.textContent = task.text;
+
+            const meta = document.createElement('span');
+            meta.className = 'todo-meta';
+            meta.textContent = task.dueDate ? `Due ${task.dueDate}` : 'No due date';
+
+            label.append(title, meta);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.textContent = 'Delete';
+
+            checkbox.addEventListener('change', () => {
+                task.done = checkbox.checked;
+                item.classList.toggle('completed', task.done);
+                updateSummary();
+            });
+
+            deleteButton.addEventListener('click', () => {
+                const index = tasks.indexOf(task);
+                if (index !== -1) {
+                    tasks.splice(index, 1);
+                    list.removeChild(item);
+                    updateSummary();
+                }
+            });
+
+            if (task.done) {
+                item.classList.add('completed');
+            }
+
+            item.append(checkbox, label, deleteButton);
+            return item;
+        }
+
+        function addTask(text) {
+            const trimmed = text.trim();
+            if (!trimmed) return;
+
+            const task = {
+                id: `task-${Date.now()}`,
+                text: trimmed,
+                dueDate: new Date().toLocaleDateString(undefined, {
+                    month: 'short',
+                    day: 'numeric'
+                }),
+                done: false,
+            };
+
+            tasks.push(task);
+            list.appendChild(createTodoItem(task));
+            updateSummary();
+        }
+
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            addTask(input.value);
+            input.value = '';
+            input.focus();
+        });
+
+        clearAllButton.addEventListener('click', () => {
+            tasks.length = 0;
+            list.innerHTML = '';
+            updateSummary();
+        });
+
+        updateSummary();
+    </script>
+</body>
+
+</html>
