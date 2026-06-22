@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My To-Do List</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+      font-family: system-ui, sans-serif;
+      background: #eef2ff;
+      color: #1e1b4b;
+    }
+    main {
+      width: min(100%, 620px);
+      padding: 2rem;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 18px 45px #312e8120;
+    }
+    h1 { margin-top: 0; }
+    form { display: grid; grid-template-columns: 1fr auto auto; gap: .65rem; }
+    input, button { font: inherit; padding: .7rem .85rem; border-radius: 9px; }
+    input { border: 1px solid #c7d2fe; }
+    button { border: 0; cursor: pointer; background: #4f46e5; color: white; }
+    button:hover { background: #3730a3; }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin: 1.25rem 0 .75rem; }
+    .clear { background: #e11d48; }
+    .clear:hover { background: #be123c; }
+    ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+    li { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .75rem; padding: .8rem; border: 1px solid #e0e7ff; border-radius: 10px; }
+    li.completed { opacity: .6; text-decoration: line-through; }
+    .task-details { display: grid; gap: .2rem; }
+    .due-date { font-size: .85rem; color: #6366f1; }
+    .delete { background: transparent; color: #be123c; padding: .35rem .55rem; }
+    .delete:hover { background: #ffe4e6; }
+    #empty-state { margin: .75rem 0 0; text-align: center; color: #64748b; }
+    @media (max-width: 520px) { form { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>My To-Do List</h1>
+    <form id="todo-form">
+      <input id="task-input" type="text" placeholder="What needs doing?" required>
+      <input id="due-date-input" type="date" aria-label="Due date">
+      <button type="submit">Add task</button>
+    </form>
+
+    <div class="toolbar">
+      <span id="task-summary">0 tasks left</span>
+      <button id="clear-completed" class="clear" type="button">Clear completed</button>
+    </div>
+
+    <ul id="todo-list"></ul>
+    <p id="empty-state">Nothing here yet — add your first task.</p>
+  </main>
+
+  <script>
+    const form = document.getElementById('todo-form');
+    const taskInput = document.getElementById('task-input');
+    const dueDateInput = document.getElementById('due-date-input');
+    const taskList = document.getElementById('todo-list');
+    const summary = document.getElementById('task-summary');
+    const emptyState = document.getElementById('empty-state');
+    const clearCompletedButton = document.getElementById('clear-completed');
+
+    let tasks = [];
+
+    function updatePage() {
+      taskList.innerHTML = '';
+
+      tasks.forEach((task) => {
+        const item = document.createElement('li');
+        item.classList.toggle('completed', task.done);
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.done;
+        checkbox.addEventListener('change', () => {
+          task.done = checkbox.checked;
+          updatePage();
+        });
+
+        const details = document.createElement('div');
+        details.className = 'task-details';
+        const taskText = document.createElement('span');
+        taskText.textContent = task.text;
+        details.append(taskText);
+
+        if (task.dueDate) {
+          const dueDate = document.createElement('span');
+          dueDate.className = 'due-date';
+          dueDate.textContent = `Due: ${task.dueDate}`;
+          details.append(dueDate);
+        }
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete';
+        deleteButton.type = 'button';
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => {
+          tasks = tasks.filter((savedTask) => savedTask.id !== task.id);
+          updatePage();
+        });
+
+        item.append(checkbox, details, deleteButton);
+        taskList.append(item);
+      });
+
+      const remainingTasks = tasks.filter((task) => !task.done).length;
+      summary.textContent = `${remainingTasks} task${remainingTasks === 1 ? '' : 's'} left`;
+      emptyState.style.display = tasks.length === 0 ? 'block' : 'none';
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const text = taskInput.value.trim();
+      if (!text) return;
+
+      tasks.push({ id: Date.now(), text: text, dueDate: dueDateInput.value, done: false });
+      form.reset();
+      taskInput.focus();
+      updatePage();
+    });
+
+    clearCompletedButton.addEventListener('click', () => {
+      tasks = tasks.filter((task) => !task.done);
+      updatePage();
+    });
+
+    updatePage();
+  </script>
+</body>
+</html>
