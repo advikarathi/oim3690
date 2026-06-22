@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My To-Do List</title>
+  <title>Fresh List Grocery Tracker</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -13,30 +13,30 @@
       place-items: center;
       padding: 2rem;
       font-family: system-ui, sans-serif;
-      background: #eef2ff;
-      color: #1e1b4b;
+      background: #edf7e9;
+      color: #173a21;
     }
     main {
       width: min(100%, 620px);
       padding: 2rem;
       border-radius: 18px;
       background: white;
-      box-shadow: 0 18px 45px #312e8120;
+      box-shadow: 0 18px 45px #2d6a3520;
     }
     h1 { margin-top: 0; }
     form { display: grid; grid-template-columns: 1fr auto auto; gap: .65rem; }
     input, button { font: inherit; padding: .7rem .85rem; border-radius: 9px; }
     input { border: 1px solid #c7d2fe; }
-    button { border: 0; cursor: pointer; background: #4f46e5; color: white; }
-    button:hover { background: #3730a3; }
+    button { border: 0; cursor: pointer; background: #2f7d32; color: white; }
+    button:hover { background: #1f5a24; }
     .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin: 1.25rem 0 .75rem; }
     .clear { background: #e11d48; }
     .clear:hover { background: #be123c; }
     ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
-    li { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .75rem; padding: .8rem; border: 1px solid #e0e7ff; border-radius: 10px; }
+    li { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .75rem; padding: .8rem; border: 1px solid #d2e8c7; border-radius: 10px; }
     li.completed { opacity: .6; text-decoration: line-through; }
     .task-details { display: grid; gap: .2rem; }
-    .due-date { font-size: .85rem; color: #6366f1; }
+    .due-date { font-size: .85rem; color: #478a44; }
     .delete { background: transparent; color: #be123c; padding: .35rem .55rem; }
     .delete:hover { background: #ffe4e6; }
     #empty-state { margin: .75rem 0 0; text-align: center; color: #64748b; }
@@ -45,20 +45,21 @@
 </head>
 <body>
   <main>
-    <h1>My To-Do List</h1>
+    <h1>Fresh List 🥬</h1>
+    <p>Keep track of groceries before your next shop.</p>
     <form id="todo-form">
-      <input id="task-input" type="text" placeholder="What needs doing?" required>
-      <input id="due-date-input" type="date" aria-label="Due date">
-      <button type="submit">Add task</button>
+      <input id="task-input" type="text" placeholder="Add a grocery item" required>
+      <input id="due-date-input" type="date" aria-label="Best before date">
+      <button type="submit">Add item</button>
     </form>
 
     <div class="toolbar">
-      <span id="task-summary">0 tasks left</span>
-      <button id="clear-completed" class="clear" type="button">Clear completed</button>
+      <span id="task-summary">0 items to buy</span>
+      <button id="clear-completed" class="clear" type="button">Clear purchased</button>
     </div>
 
     <ul id="todo-list"></ul>
-    <p id="empty-state">Nothing here yet — add your first task.</p>
+    <p id="empty-state">Your basket is empty — add your first item.</p>
   </main>
 
   <script src="script.js"></script>

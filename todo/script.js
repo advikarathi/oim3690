@@ -1,3 +1,4 @@
+const STORAGE_KEY = 'fresh-list-items';
 const form = document.getElementById('todo-form');
 const taskInput = document.getElementById('task-input');
 const dueDateInput = document.getElementById('due-date-input');
@@ -6,7 +7,22 @@ const summary = document.getElementById('task-summary');
 const emptyState = document.getElementById('empty-state');
 const clearCompletedButton = document.getElementById('clear-completed');
 
-let tasks = [];
+let tasks = loadTasks();
+
+function loadTasks() {
+  const savedTasks = localStorage.getItem(STORAGE_KEY);
+  if (!savedTasks) return [];
+
+  try {
+    return JSON.parse(savedTasks);
+  } catch {
+    return [];
+  }
+}
+
+function saveTasks() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
 
 function updatePage() {
   taskList.innerHTML = '';
@@ -32,7 +48,7 @@ function updatePage() {
     if (task.dueDate) {
       const dueDate = document.createElement('span');
       dueDate.className = 'due-date';
-      dueDate.textContent = `Due: ${task.dueDate}`;
+      dueDate.textContent = `Best before: ${task.dueDate}`;
       details.append(dueDate);
     }
 
@@ -50,8 +66,9 @@ function updatePage() {
   });
 
   const remainingTasks = tasks.filter((task) => !task.done).length;
-  summary.textContent = `${remainingTasks} task${remainingTasks === 1 ? '' : 's'} left`;
+  summary.textContent = `${remainingTasks} item${remainingTasks === 1 ? '' : 's'} to buy`;
   emptyState.style.display = tasks.length === 0 ? 'block' : 'none';
+  saveTasks();
 }
 
 form.addEventListener('submit', (event) => {
