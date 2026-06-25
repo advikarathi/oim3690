@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f0f7ff, #fff3e8);
+      color: #222;
+      font-family: Arial, sans-serif;
+    }
+
+    main {
+      width: min(90%, 520px);
+      padding: 32px;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    p {
+      line-height: 1.5;
+    }
+
+    .converter {
+      display: grid;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 14px;
+      border: 2px solid #d7dce5;
+      border-radius: 12px;
+      font-size: 1.1rem;
+    }
+
+    input:focus {
+      border-color: #3578e5;
+      outline: none;
+    }
+
+    button {
+      padding: 14px 18px;
+      border: none;
+      border-radius: 12px;
+      background: #3578e5;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #225db5;
+    }
+
+    #result {
+      min-height: 28px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #f5f7fb;
+      font-weight: bold;
+    }
+
+    .hint {
+      color: #666;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Temperature Converter</h1>
+    <p>Type in either box and the other temperature updates automatically.</p>
+
+    <section class="converter" aria-label="Temperature converter">
+      <label for="celsius">
+        Celsius
+        <input id="celsius" type="number" placeholder="Example: 100">
+      </label>
+
+      <label for="fahrenheit">
+        Fahrenheit
+        <input id="fahrenheit" type="number" placeholder="Example: 212">
+      </label>
+
+      <button id="convert-button" type="button">Convert Celsius to Fahrenheit</button>
+      <div id="result" aria-live="polite">Enter a temperature to see the result.</div>
+      <p class="hint">Test: 100°C should become 212°F.</p>
+    </section>
+  </main>
+
+  <script>
+    const celsiusInput = document.getElementById('celsius');
+    const fahrenheitInput = document.getElementById('fahrenheit');
+    const convertButton = document.getElementById('convert-button');
+    const result = document.getElementById('result');
+
+    function toFahrenheit(celsius) {
+      return celsius * 9 / 5 + 32;
+    }
+
+    function toCelsius(fahrenheit) {
+      return (fahrenheit - 32) * 5 / 9;
+    }
+
+    function roundTemperature(temperature) {
+      return Math.round(temperature * 10) / 10;
+    }
+
+    function updateFromCelsius() {
+      const celsius = Number(celsiusInput.value);
+
+      if (celsiusInput.value === '') {
+        fahrenheitInput.value = '';
+        result.textContent = 'Enter a temperature to see the result.';
+        return;
+      }
+
+      const fahrenheit = toFahrenheit(celsius);
+      fahrenheitInput.value = roundTemperature(fahrenheit);
+      result.textContent = `${celsius}°C is ${roundTemperature(fahrenheit)}°F.`;
+    }
+
+    function updateFromFahrenheit() {
+      const fahrenheit = Number(fahrenheitInput.value);
+
+      if (fahrenheitInput.value === '') {
+        celsiusInput.value = '';
+        result.textContent = 'Enter a temperature to see the result.';
+        return;
+      }
+
+      const celsius = toCelsius(fahrenheit);
+      celsiusInput.value = roundTemperature(celsius);
+      result.textContent = `${fahrenheit}°F is ${roundTemperature(celsius)}°C.`;
+    }
+
+    celsiusInput.addEventListener('input', updateFromCelsius);
+    fahrenheitInput.addEventListener('input', updateFromFahrenheit);
+    convertButton.addEventListener('click', updateFromCelsius);
+  </script>
+</body>
+</html>
