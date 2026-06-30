@@ -12,7 +12,7 @@ This is my course repo for OIM3690. It holds class exercises, weekly logs, and l
 | Personal Website | [repo](https://github.com/advikarathi/username.github.io) | [live](https://advikarathi.github.io) |
 | MP1 — Website for Someone Else |[repo](https://github.com/advikarathi/devanshirathifoundation)| [live](https://advikarathi.github.io/devanshi-rathi-foundation/) |
 | MP2 — Interactive Web Tool |[repo](https://github.com/advikarathi/lift-tracker) |[live](https://advikarathi.github.io/lift-tracker/) |
-| MP3 — API-Powered App | | |
+| MP3 — API-Powered App |[repo](https://github.com/advikarathi/recipe-finder) |[live](advikarathi.github.io/recipe-finder/) |
 | Final Project | | |
 
 ## Weekly Logs
