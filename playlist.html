@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playlist</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .playlist-form {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+        max-width: 520px;
+      }
+
+      .playlist-form input {
+        flex: 1;
+        border: 1px solid #d8c7ff;
+        border-radius: 4px;
+        font: inherit;
+        min-width: 0;
+        padding: 8px 10px;
+      }
+
+      .playlist-form button {
+        background: #5c4dab;
+        border: 0;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        font: inherit;
+        padding: 8px 14px;
+      }
+
+      .playlist-form button:hover {
+        background: #46358f;
+      }
+
+      .remix {
+        color: #e63946;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Playlist</h1>
+      <nav>
+        <a href="index.html">Home</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="intro">
+        <h2>My Songs</h2>
+        <form class="playlist-form" id="playlist-form">
+          <input
+            id="song-input"
+            type="text"
+            placeholder="Add a song title"
+            aria-label="Song title"
+          />
+          <button type="submit">Add song</button>
+        </form>
+        <ul id="playlist"></ul>
+      </section>
+    </main>
+
+    <script src="js/playlist.js"></script>
+  </body>
+</html>
